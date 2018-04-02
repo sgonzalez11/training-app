@@ -16,6 +16,7 @@ import { NewTrainingComponent } from './training/new-training/new-training.compo
 import { PastTrainingsComponent } from './training/past-trainings/past-trainings.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { AppRoutingModule } from './app-routing.module';
+import { StopTrainingComponent } from './training/current-training/stop-training.component';
 
 
 
@@ -31,6 +32,7 @@ import { AppRoutingModule } from './app-routing.module';
     WelcomeComponent,
     HeaderComponent,
     SidenavListComponent,
+    StopTrainingComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,6 +43,7 @@ import { AppRoutingModule } from './app-routing.module';
     FormsModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [StopTrainingComponent],
 })
 export class AppModule { }
