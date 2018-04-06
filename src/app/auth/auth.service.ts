@@ -1,10 +1,11 @@
+import { Subject } from 'rxjs/Subject';
 import { Injectable } from '@angular/core';
 import { User } from './user.model';
 import { AuthData } from './auth-data.model';
 
-@Injectable
+@Injectable()
 export class AuthService {
-
+  authChange = new Subject<boolean>();
   private user: User;
 
   registerUser(authData: AuthData) {
@@ -12,6 +13,7 @@ export class AuthService {
       email: authData.email,
       userId: Math.round(Math.random() * 10000).toString()
     };
+    this.authChange.next(true);
   }
 
   login(authData: AuthData) {
@@ -19,9 +21,11 @@ export class AuthService {
       email: authData.email,
       userId: Math.round(Math.random() * 10000).toString()
     };
+    this.authChange.next(true);
   }
 
   logout() {
+    this.authChange.next(false);
     this.user = null;
   }
 
