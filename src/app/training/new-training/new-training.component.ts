@@ -15,7 +15,8 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
 
   exercises: Exercise[];
   exerciseSubscription: Subscription;
-  isLoading = false;
+
+  isLoading = true;
   private loadingSubs: Subscription;
 
   constructor(private trainingService: TrainingService, private uiService: UIService) { }
@@ -29,6 +30,10 @@ export class NewTrainingComponent implements OnInit, OnDestroy {
       .subscribe(exercises => {
         this.exercises = exercises;
       });
+    this.fetchExercises();
+  }
+
+  fetchExercises() {
     this.trainingService.fetchAvailableExercises();
   }
 
