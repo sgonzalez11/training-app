@@ -1,10 +1,11 @@
-import { Subject } from 'rxjs/Subject';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs/Subject';
+import { MatSnackBar } from '@angular/material';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { User } from './user.model';
 import { AuthData } from './auth-data.model';
-import {TrainingService} from '../training/training.service';
+import { TrainingService } from '../training/training.service';
+import { UIService } from '../shared/ui.service';
 
 
 @Injectable()
@@ -12,7 +13,13 @@ export class AuthService {
   authChange = new Subject<boolean>();
   private isAuthenticated  = false;
 
-  constructor(private router: Router, private afAuth: AngularFireAuth, private trainingService: TrainingService) {}
+  constructor(
+    private router: Router,
+    private afAuth: AngularFireAuth,
+    private trainingService: TrainingService,
+    private snackBar: MatSnackBar,
+    private uiService: UIService,
+  ) {}
 
   initAuthListener() {
     this.afAuth.authState.subscribe(user => {
@@ -30,24 +37,33 @@ export class AuthService {
   }
 
   registerUser(authData: AuthData) {
+    this.uiService.loadingStateChanged.next(true);
     this.afAuth.auth.createUserWithEmailAndPassword(
       authData.email,
       authData.password
     ).then(message => {
-      console.log(message);
+        this.uiService.loadingStateChanged.next(false);
+
     }).catch(error => {
-      console.log(error);
+        this.uiService.loadingStateChanged.next(false);
+        this.snackBar.open(error.message, null, {
+          duration: 3000
+        });
     });
-    }
+  }
 
   login(authData: AuthData) {
+    this.uiService.loadingStateChanged.next(true);
     this.afAuth.auth.signInWithEmailAndPassword(
       authData.email,
       authData.password,
     ).then(message => {
-      console.log(message);
+        this.uiService.loadingStateChanged.next(false);
     }).catch(reason => {
-      console.log(reason);
+        this.uiService.loadingStateChanged.next(false);
+        this.snackBar.open(reason.message, null, {
+          duration: 3000
+        });
     });
   }
 
