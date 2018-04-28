@@ -6,7 +6,6 @@ import { AngularFireModule } from 'angularfire2';
 import { MaterialModule } from './material.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthModule } from './auth/auth.module';
-import { TrainingModule } from './training/training.module';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './navigation/header/header.component';
@@ -33,7 +32,6 @@ import { environment} from '../environments/environment';
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
     AuthModule,
-    TrainingModule,
   ],
   providers: [AuthService, TrainingService, UIService],
   bootstrap: [AppComponent],
